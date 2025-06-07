@@ -33,6 +33,7 @@ public class BookStoreAppApplication {
 				testBook.setPrice(BigDecimal.valueOf(66.60));
 				testBook.setCoverImage("https://example.com/images/szkarlatny_szept.jpg");
 				bookService.save(testBook);
+				System.out.println(testBook);
 			}
 		};
 	}
