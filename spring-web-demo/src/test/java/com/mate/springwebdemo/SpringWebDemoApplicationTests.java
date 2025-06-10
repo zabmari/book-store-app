@@ -1,13 +1,13 @@
-package com.mate.bookstoreapp;
+package com.mate.springwebdemo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BookStoreAppApplicationTests {
+class SpringWebDemoApplicationTests {
 
-    @Test
-    void contextLoads() {
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }

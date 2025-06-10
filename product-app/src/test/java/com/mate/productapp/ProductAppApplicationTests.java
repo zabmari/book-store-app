@@ -1,10 +1,10 @@
-package com.mate.bookstoreapp;
+package com.mate.productapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BookStoreAppApplicationTests {
+class ProductAppApplicationTests {
 
     @Test
     void contextLoads() {

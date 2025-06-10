@@ -1,11 +1,13 @@
-package com.mate;
+package com.mate.productapp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BookStoreAppApplication {
+public class ProductAppApplication {
+
     public static void main(String[] args) {
-        SpringApplication.run(BookStoreAppApplication.class, args);
+        SpringApplication.run(ProductAppApplication.class, args);
     }
+
 }
