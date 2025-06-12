@@ -1,16 +1,16 @@
 package com.mate.repository;
 
 import com.mate.model.Book;
+import java.util.List;
+import java.util.Optional;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
-public class BookRepositoryImpl implements BookRepository{
+public class BookRepositoryImpl implements BookRepository {
 
     private final SessionFactory sessionFactory;
 
@@ -43,7 +43,15 @@ public class BookRepositoryImpl implements BookRepository{
 
     @Override
     public List<Book> findAll() {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("select b from Book b", Book.class).getResultList();
+        }
+    }
+
+    @Override
+    public Optional<Book> findById(Long id) {
         Session session = sessionFactory.openSession();
-        return session.createQuery("select b from Book b", Book.class).getResultList();
+        Book book = session.find(Book.class, id);
+        return book != null ? Optional.of(book) : Optional.empty();
     }
 }
