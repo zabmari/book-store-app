@@ -16,23 +16,23 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
 
     @Override
     public Specification<Book> build(BookSearchParameters bookSearchParameters) {
-        String[][] allParams = {
-                bookSearchParameters.titles(),
-                bookSearchParameters.authors(),
-                bookSearchParameters.isbn(),
-                bookSearchParameters.categories()
-        };
-        String[] keys = { "title", "author", "isbn", "categories" };
 
         Specification<Book> spec = Specification.where(null);
-        for (int i = 0; i < keys.length; i++) {
-            String[] values = allParams[i];
-            if (values != null && values.length > 0) {
-                Specification<Book> part = specificationProviderManager
-                        .getSpecificationProvider(keys[i])
-                        .getSpecification(values);
-                spec = spec.and(part);
-            }
+
+        spec = addToSpec(spec, "title", bookSearchParameters.titles());
+        spec = addToSpec(spec, "author", bookSearchParameters.authors());
+        spec = addToSpec(spec, "isbn", bookSearchParameters.isbn());
+        spec = addToSpec(spec, "category", bookSearchParameters.categories());
+
+        return spec;
+    }
+
+    private Specification<Book> addToSpec(Specification<Book> spec, String key, String[] values) {
+        if (values != null && values.length > 0) {
+            Specification<Book> part = specificationProviderManager
+                    .getSpecificationProvider(key)
+                    .getSpecification(values);
+            spec = spec.and(part);
         }
         return spec;
     }
