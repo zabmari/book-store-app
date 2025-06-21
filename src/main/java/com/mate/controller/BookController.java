@@ -1,9 +1,9 @@
 package com.mate.controller;
 
-import com.mate.dto.BookDto;
-import com.mate.dto.BookSearchParameters;
-import com.mate.dto.CreateBookRequestDto;
-import com.mate.dto.UpdateBookRequestDto;
+import com.mate.dto.book.BookDto;
+import com.mate.dto.book.BookSearchParameters;
+import com.mate.dto.book.CreateBookRequestDto;
+import com.mate.dto.book.UpdateBookRequestDto;
 import com.mate.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
