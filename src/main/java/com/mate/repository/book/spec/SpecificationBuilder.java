@@ -1,4 +1,4 @@
-package com.mate.repository;
+package com.mate.repository.book.spec;
 
 import com.mate.dto.book.BookSearchParameters;
 import org.springframework.data.jpa.domain.Specification;
