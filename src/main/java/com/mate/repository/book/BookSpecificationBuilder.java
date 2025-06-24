@@ -2,8 +2,8 @@ package com.mate.repository.book;
 
 import com.mate.dto.book.BookSearchParameters;
 import com.mate.model.Book;
-import com.mate.repository.SpecificationBuilder;
-import com.mate.repository.SpecificationProviderManager;
+import com.mate.repository.book.spec.SpecificationBuilder;
+import com.mate.repository.book.spec.SpecificationProviderManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;

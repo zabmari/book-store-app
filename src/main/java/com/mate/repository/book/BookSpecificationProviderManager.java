@@ -1,8 +1,8 @@
 package com.mate.repository.book;
 
 import com.mate.model.Book;
-import com.mate.repository.SpecificationProvider;
-import com.mate.repository.SpecificationProviderManager;
+import com.mate.repository.book.spec.SpecificationProvider;
+import com.mate.repository.book.spec.SpecificationProviderManager;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
