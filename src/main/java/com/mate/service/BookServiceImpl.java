@@ -1,9 +1,9 @@
 package com.mate.service;
 
-import com.mate.dto.BookDto;
-import com.mate.dto.BookSearchParameters;
-import com.mate.dto.CreateBookRequestDto;
-import com.mate.dto.UpdateBookRequestDto;
+import com.mate.dto.book.BookDto;
+import com.mate.dto.book.BookSearchParameters;
+import com.mate.dto.book.CreateBookRequestDto;
+import com.mate.dto.book.UpdateBookRequestDto;
 import com.mate.exception.EntityNotFoundException;
 import com.mate.mapper.BookMapper;
 import com.mate.model.Book;

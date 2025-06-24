@@ -1,4 +1,4 @@
-package com.mate.dto;
+package com.mate.dto.book;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;

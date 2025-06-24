@@ -1,9 +1,9 @@
 package com.mate.mapper;
 
 import com.mate.config.MapperConfig;
-import com.mate.dto.BookDto;
-import com.mate.dto.CreateBookRequestDto;
-import com.mate.dto.UpdateBookRequestDto;
+import com.mate.dto.book.BookDto;
+import com.mate.dto.book.CreateBookRequestDto;
+import com.mate.dto.book.UpdateBookRequestDto;
 import com.mate.model.Book;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
