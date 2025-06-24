@@ -16,38 +16,24 @@ public class BookSpecificationBuilder implements SpecificationBuilder<Book> {
 
     @Override
     public Specification<Book> build(BookSearchParameters bookSearchParameters) {
-        Specification<Book> specification = null;
 
-        if (bookSearchParameters.authors() != null && bookSearchParameters.authors().length > 0) {
-            Specification<Book> authorSpec = specificationProviderManager
-                    .getSpecificationProvider("author")
-                    .getSpecification(bookSearchParameters.authors());
-            specification = authorSpec;
+        Specification<Book> spec = Specification.where(null);
+
+        spec = addToSpec(spec, "title", bookSearchParameters.titles());
+        spec = addToSpec(spec, "author", bookSearchParameters.authors());
+        spec = addToSpec(spec, "isbn", bookSearchParameters.isbn());
+        spec = addToSpec(spec, "category", bookSearchParameters.categories());
+
+        return spec;
+    }
+
+    private Specification<Book> addToSpec(Specification<Book> spec, String key, String[] values) {
+        if (values != null && values.length > 0) {
+            Specification<Book> part = specificationProviderManager
+                    .getSpecificationProvider(key)
+                    .getSpecification(values);
+            spec = spec.and(part);
         }
-
-        if (bookSearchParameters.titles() != null && bookSearchParameters.titles().length > 0) {
-            Specification<Book> titleSpec = specificationProviderManager
-                    .getSpecificationProvider("title")
-                    .getSpecification(bookSearchParameters.titles());
-            specification = (specification == null) ? titleSpec : specification.and(titleSpec);
-        }
-
-        if (bookSearchParameters.isbn() != null && bookSearchParameters.isbn().length > 0) {
-            Specification<Book> isbnSpec = specificationProviderManager
-                    .getSpecificationProvider("isbn")
-                    .getSpecification(bookSearchParameters.isbn());
-            specification = (specification == null) ? isbnSpec : specification.and(isbnSpec);
-        }
-
-        if (bookSearchParameters.categories() != null
-                && bookSearchParameters.categories().length > 0) {
-            Specification<Book> categoriesSpec = specificationProviderManager
-                    .getSpecificationProvider("categories")
-                    .getSpecification(bookSearchParameters.categories());
-            specification = (specification == null) ? categoriesSpec
-                    : specification.and(categoriesSpec);
-        }
-
-        return specification;
+        return spec;
     }
 }
