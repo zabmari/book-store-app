@@ -37,3 +37,40 @@ databaseChangeLog:
               - column:
                   name: shipping_address
                   type: VARCHAR(255)
+
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "alice@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$abcdefgh1234567890abcdefg1234567890abcdefg1234567890abc"
+              - column:
+                  name: first_name
+                  value: "Alice"
+              - column:
+                  name: last_name
+                  value: "Smith"
+              - column:
+                  name: shipping_address
+                  value: "123 Main St"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "bob@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$hijklmnop1234567890abcdefg1234567890abcdefg1234567890ab"
+              - column:
+                  name: first_name
+                  value: "Bob"
+              - column:
+                  name: last_name
+                  value: "Johnson"
+              - column:
+                  name: shipping_address
+                  value: "456 Oak St"

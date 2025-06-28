@@ -1,6 +1,7 @@
 package com.mate.service;
 
 import com.mate.dto.book.BookDto;
+import com.mate.dto.book.BookDtoWithoutCategoryIds;
 import com.mate.dto.book.BookSearchParameters;
 import com.mate.dto.book.CreateBookRequestDto;
 import com.mate.dto.book.UpdateBookRequestDto;
@@ -25,7 +26,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto save(CreateBookRequestDto createBookRequestDto) {
-        Book book = bookMapper.toModel(createBookRequestDto);
+        Book book = bookMapper.toEntity(createBookRequestDto);
         Book savedBook = bookRepository.save(book);
         return bookMapper.toDto(savedBook);
     }
@@ -65,6 +66,14 @@ public class BookServiceImpl implements BookService {
         return bookRepository.findAll(bookSpecification, pageable)
                 .stream()
                 .map(bookMapper::toDto)
+                .toList();
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId) {
+        List<Book> books = bookRepository.findAllByCategories_Id(categoryId);
+        return books.stream()
+                .map(bookMapper::toDtoWithoutCategories)
                 .toList();
     }
 }
