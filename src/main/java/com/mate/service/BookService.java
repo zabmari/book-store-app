@@ -1,6 +1,7 @@
 package com.mate.service;
 
 import com.mate.dto.book.BookDto;
+import com.mate.dto.book.BookDtoWithoutCategoryIds;
 import com.mate.dto.book.BookSearchParameters;
 import com.mate.dto.book.CreateBookRequestDto;
 import com.mate.dto.book.UpdateBookRequestDto;
@@ -20,5 +21,7 @@ public interface BookService {
     BookDto updateById(Long id, UpdateBookRequestDto updateBookRequestDto);
 
     List<BookDto> search(BookSearchParameters bookSearchParameters, Pageable pageable);
+
+    List<BookDtoWithoutCategoryIds> findAllByCategoryId(Long categoryId);
 
 }
