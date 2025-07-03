@@ -24,10 +24,6 @@ public class AuthenticationController {
 
     @PostMapping("/registration")
     public UserResponseDto register(@Valid @RequestBody UserRegistrationRequestDto request) {
-        System.out.println("EMAIL: " + request.getEmail());
-        System.out.println("FIRST NAME: " + request.getFirstName());
-        System.out.println("LAST NAME: " + request.getLastName());
-        System.out.println("ADDRESS: " + request.getShippingAddress());
         return userService.register(request);
     }
 
