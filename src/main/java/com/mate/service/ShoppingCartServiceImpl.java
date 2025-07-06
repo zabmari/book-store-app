@@ -33,9 +33,6 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user).orElseThrow(
                 () -> new EntityNotFoundException(
                         "Can't find shopping cart by user: " + user.getEmail()));
-        System.out.println("ShoppingCart id: " + shoppingCart.getId());
-        System.out.println("Cart items size: " + shoppingCart.getCartItems().size());
-        shoppingCart.getCartItems().forEach(item -> System.out.println(item.getBook().getTitle()));
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
@@ -83,22 +80,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     private ShoppingCart getOrCreateShoppingCart(User user) {
         return shoppingCartRepository.findByUser(user)
                 .orElseGet(() -> {
-                    ShoppingCart shoppingCart = new ShoppingCart();
-                    shoppingCart.setUser(user);
-                    return shoppingCartRepository.save(shoppingCart);
-                }
+                            ShoppingCart shoppingCart = new ShoppingCart();
+                            shoppingCart.setUser(user);
+                            return shoppingCartRepository.save(shoppingCart);
+                        }
                 );
     }
 
     private CartItem getCartItemForUser(User user, Long cartItemId) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user).orElseThrow(
-                () -> new EntityNotFoundException("User has no shopping cart"));
-        CartItem cartItem = cartItemRepository.findById(cartItemId).orElseThrow(
-                () -> new EntityNotFoundException("Can't find cartItem by id: " + cartItemId));
-        if (!cartItem.getShoppingCart().getId().equals(shoppingCart.getId())) {
-            throw new EntityNotFoundException(
-                    "This cart item does not belong to user's shopping cart");
-        }
-        return cartItem;
+        return cartItemRepository.findByIdAndShoppingCartUser(cartItemId, user).orElseThrow(
+                () -> new EntityNotFoundException("Can't find cart item for user: "
+                        + user.getEmail()));
     }
 }

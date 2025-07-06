@@ -10,13 +10,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.HashSet;
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "shopping_carts")
+@Table(name = "shopping_carts",
+        uniqueConstraints = @UniqueConstraint(columnNames = "user_id")
+)
 @Getter
 @Setter
 public class ShoppingCart {
@@ -24,9 +27,9 @@ public class ShoppingCart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @OneToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, unique = true)
     private User user;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shoppingCart",
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "shoppingCart",
             cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<CartItem> cartItems = new HashSet<>();
 }
