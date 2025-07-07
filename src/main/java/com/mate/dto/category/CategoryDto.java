@@ -1,8 +1,13 @@
 package com.mate.dto.category;
 
-public record CategoryDto(
-        Long id,
-        String name,
-        String description
-) {
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
+
+@Data
+public class CategoryDto {
+    @NotNull
+    private Long id;
+    @NotNull
+    private String name;
+    private String description;
 }
