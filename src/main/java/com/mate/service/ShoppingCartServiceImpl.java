@@ -12,10 +12,10 @@ import com.mate.model.User;
 import com.mate.repository.book.BookRepository;
 import com.mate.repository.cartitem.CartItemRepository;
 import com.mate.repository.shoppingcart.ShoppingCartRepository;
-import jakarta.transaction.Transactional;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -30,9 +30,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponseDto getByUser(User user) {
-        ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user).orElseThrow(
-                () -> new EntityNotFoundException(
-                        "Can't find shopping cart by user: " + user.getEmail()));
+        ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user)
+                .orElseGet(() -> {
+                    ShoppingCart newCart = new ShoppingCart();
+                    newCart.setUser(user);
+                    return shoppingCartRepository.save(newCart);
+                });
         return shoppingCartMapper.toDto(shoppingCart);
     }
 
