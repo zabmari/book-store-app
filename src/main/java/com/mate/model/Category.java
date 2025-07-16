@@ -6,7 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -15,6 +17,8 @@ import org.hibernate.annotations.Where;
 @Entity
 @Table(name = "categories")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,4 +28,8 @@ public class Category {
     private String description;
     @Column(nullable = false)
     private boolean isDeleted = false;
+
+    public Category(Long id) {
+        this.id = id;
+    }
 }

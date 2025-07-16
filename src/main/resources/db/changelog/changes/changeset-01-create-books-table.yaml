@@ -46,52 +46,52 @@ databaseChangeLog:
                   defaultValueBoolean: false
                   constraints:
                     nullable: false
-        - insert:
-            tableName: books
-            columns:
-              - column:
-                  name: title
-                  value: "Clean Code"
-              - column:
-                  name: author
-                  value: "Robert C. Martin"
-              - column:
-                  name: isbn
-                  value: "9780132350884"
-              - column:
-                  name: price
-                  valueNumeric: 45.99
-              - column:
-                  name: description
-                  value: "A Handbook of Agile Software Craftsmanship"
-              - column:
-                  name: cover_image
-                  value: "clean_code_cover.jpg"
-              - column:
-                  name: is_deleted
-                  valueBoolean: false
-
-        - insert:
-            tableName: books
-            columns:
-              - column:
-                  name: title
-                  value: "Effective Java"
-              - column:
-                  name: author
-                  value: "Joshua Bloch"
-              - column:
-                  name: isbn
-                  value: "9780134685991"
-              - column:
-                  name: price
-                  valueNumeric: 55.00
-              - column:
-                  name: description
-                  value: "Best practices for the Java platform"
-              - column:
-                  name: cover_image
-                  value: "effective_java_cover.jpg"
-              - column:
-                  name: is_deleted
-                  valueBoolean: false
+#        - insert:
+#            tableName: books
+#            columns:
+#              - column:
+#                  name: title
+#                  value: "Clean Code"
+#              - column:
+#                  name: author
+#                  value: "Robert C. Martin"
+#              - column:
+#                  name: isbn
+#                  value: "9780132350884"
+#              - column:
+#                  name: price
+#                  valueNumeric: 45.99
+#              - column:
+#                  name: description
+#                  value: "A Handbook of Agile Software Craftsmanship"
+#              - column:
+#                  name: cover_image
+#                  value: "clean_code_cover.jpg"
+#              - column:
+#                  name: is_deleted
+#                  valueBoolean: false
+#
+#        - insert:
+#            tableName: books
+#            columns:
+#              - column:
+#                  name: title
+#                  value: "Effective Java"
+#              - column:
+#                  name: author
+#                  value: "Joshua Bloch"
+#              - column:
+#                  name: isbn
+#                  value: "9780134685991"
+#              - column:
+#                  name: price
+#                  valueNumeric: 55.00
+#              - column:
+#                  name: description
+#                  value: "Best practices for the Java platform"
+#              - column:
+#                  name: cover_image
+#                  value: "effective_java_cover.jpg"
+#              - column:
+#                  name: is_deleted
+#                  valueBoolean: false
