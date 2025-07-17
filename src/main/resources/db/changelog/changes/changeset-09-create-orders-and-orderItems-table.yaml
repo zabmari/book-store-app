@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 14
+      id: 09
       author: mzab
       changes:
         - createTable:
@@ -44,32 +44,8 @@ databaseChangeLog:
             referencedTableName: users
             referencedColumnNames: id
             constraintName: fk_orders_user
-
   - changeSet:
-      id: 15
-      author: mzab
-      changes:
-        - insert:
-            tableName: orders
-            columns:
-              - column:
-                  name: user_id
-                  valueNumeric: 1
-              - column:
-                  name: status
-                  value: NEW
-              - column:
-                  name: total
-                  valueNumeric: 99.99
-              - column:
-                  name: order_date
-                  valueDate: 2025-07-05T12:00:00
-              - column:
-                  name: shipping_address
-                  value: "123 Street, City"
-
-  - changeSet:
-      id: 16
+      id: 10
       author: mzab
       changes:
         - createTable:
@@ -114,38 +90,3 @@ databaseChangeLog:
             referencedTableName: books
             referencedColumnNames: id
             constraintName: fk_orderitems_book
-
-  - changeSet:
-      id: 17
-      author: mzab
-      changes:
-        - insert:
-            tableName: order_items
-            columns:
-              - column:
-                  name: order_id
-                  valueNumeric: 1
-              - column:
-                  name: book_id
-                  valueNumeric: 1
-              - column:
-                  name: quantity
-                  valueNumeric: 2
-              - column:
-                  name: price
-                  valueNumeric: 49.99
-        - insert:
-            tableName: order_items
-            columns:
-              - column:
-                  name: order_id
-                  valueNumeric: 1
-              - column:
-                  name: book_id
-                  valueNumeric: 2
-              - column:
-                  name: quantity
-                  valueNumeric: 1
-              - column:
-                  name: price
-                  valueNumeric: 49.99
