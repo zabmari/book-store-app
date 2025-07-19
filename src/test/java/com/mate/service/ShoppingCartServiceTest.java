@@ -2,6 +2,7 @@ package com.mate.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -77,13 +78,18 @@ public class ShoppingCartServiceTest {
         User user = new User();
         user.setEmail("nonexistent@example.com");
 
-        when(shoppingCartRepository.findByUser(any(User.class))).thenReturn(Optional.empty());
+        when(shoppingCartRepository.findByUser(argThat(u ->
+                u != null && "nonexistent@example.com".equals(u.getEmail())
+        ))).thenReturn(Optional.empty());
 
-        Exception exception = Assertions.assertThrows(EntityNotFoundException.class, () -> {
-            shoppingCartService.getByUser(user);
-        });
+        EntityNotFoundException exception = Assertions.assertThrows(
+                EntityNotFoundException.class, () -> {
+                    shoppingCartService.getByUser(user);
+                });
+
         String expected = "Can't find shopping cart by user: " + user.getEmail();
         String actual = exception.getMessage();
+
         assertThat(actual).isEqualTo(expected);
     }
 
