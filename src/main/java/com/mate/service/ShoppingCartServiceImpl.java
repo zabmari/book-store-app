@@ -30,6 +30,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 
     @Override
     public ShoppingCartResponseDto getByUser(User user) {
+        System.out.println(shoppingCartRepository.findByUser(user));
         ShoppingCart shoppingCart = shoppingCartRepository.findByUser(user).orElseThrow(
                 () -> new EntityNotFoundException(
                         "Can't find shopping cart by user: " + user.getEmail()));
