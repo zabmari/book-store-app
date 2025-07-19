@@ -78,9 +78,12 @@ public class ShoppingCartServiceTest {
         User user = new User();
         user.setEmail("nonexistent@example.com");
 
-        when(shoppingCartRepository.findByUser(argThat(u ->
-                u != null && "nonexistent@example.com".equals(u.getEmail())
-        ))).thenReturn(Optional.empty());
+        when(shoppingCartRepository.findByUser(argThat(u -> {
+            System.out.println("Received user with email = " + (u != null ? u.getEmail() : "null"));
+            return u != null && "nonexistent@example.com".equals(u.getEmail());
+        }))).thenReturn(Optional.empty());
+
+        System.out.println("User email in test: " + user.getEmail());
 
         EntityNotFoundException exception = Assertions.assertThrows(
                 EntityNotFoundException.class, () -> {
