@@ -74,16 +74,17 @@ public class ShoppingCartServiceTest {
     @Test
     @DisplayName("Find shopping cart with non-existing shopping cart throws exception")
     public void getByUser_NonExistingUser_ThrowsException() {
-        User user = createUser();
+        User user = new User();
+        user.setEmail("nonexistent@example.com");
 
-        when(shoppingCartRepository.findByUser(user)).thenReturn(Optional.empty());
+        when(shoppingCartRepository.findByUser(any(User.class))).thenReturn(Optional.empty());
 
         Exception exception = Assertions.assertThrows(EntityNotFoundException.class, () -> {
             shoppingCartService.getByUser(user);
         });
         String expected = "Can't find shopping cart by user: " + user.getEmail();
         String actual = exception.getMessage();
-        assertThat(expected).isEqualTo(actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
     @Test
