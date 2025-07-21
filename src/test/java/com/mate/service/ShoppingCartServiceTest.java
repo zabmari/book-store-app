@@ -7,7 +7,6 @@ import static org.mockito.Mockito.when;
 
 import com.mate.dto.cartitem.CartItemResponseDto;
 import com.mate.dto.shoppingcart.ShoppingCartResponseDto;
-import com.mate.exception.EntityNotFoundException;
 import com.mate.mapper.CartItemMapper;
 import com.mate.mapper.ShoppingCartMapper;
 import com.mate.model.Book;
@@ -19,10 +18,10 @@ import com.mate.repository.book.BookRepository;
 import com.mate.repository.cartitem.CartItemRepository;
 import com.mate.repository.shoppingcart.ShoppingCartRepository;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,20 +71,23 @@ public class ShoppingCartServiceTest {
     }
 
     @Test
-    @DisplayName("Find shopping cart with non-existing shopping cart throws exception")
-    public void getByUser_NonExistingUser_ThrowsException() {
+    @DisplayName("Find shopping cart with non-existing shopping cart and create new cart")
+    public void getByUser_NonExistingShoppingCart_CreatesNewCartAndReturnsDto() {
         User user = new User();
         user.setEmail("nonexistent@example.com");
 
-        when(shoppingCartRepository.findByUser(any(User.class))).thenReturn(Optional.empty());
+        ShoppingCart newCart = new ShoppingCart();
+        newCart.setUser(user);
 
-        EntityNotFoundException exception = Assertions.assertThrows(
-                EntityNotFoundException.class,
-                () -> shoppingCartService.getByUser(user)
-        );
+        ShoppingCartResponseDto responseDto = new ShoppingCartResponseDto();
+        responseDto.setCartItems(Collections.emptySet());
 
-        assertThat(exception.getMessage()).isEqualTo(
-                "Can't find shopping cart by user: " + user.getEmail());
+        when(shoppingCartRepository.findByUser(user)).thenReturn(Optional.empty());
+        when(shoppingCartRepository.save(any(ShoppingCart.class))).thenReturn(newCart);
+        when(shoppingCartMapper.toDto(newCart)).thenReturn(responseDto);
+
+        ShoppingCartResponseDto result = shoppingCartService.getByUser(user);
+        assertThat(result).isEqualTo(responseDto);
     }
 
     @Test
