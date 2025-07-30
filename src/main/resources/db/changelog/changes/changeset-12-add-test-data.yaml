@@ -1,0 +1,234 @@
+databaseChangeLog:
+  - changeSet:
+      id: 12
+      author: marzab
+      changes:
+        - insert:
+
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "user@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$RAf9kXNi.4T66xi.uL9.DupVmlUPjPwTcBdkKQgeG0ZVyhI0vrXTe"  # "password"
+              - column:
+                  name: first_name
+                  value: "Luna"
+              - column:
+                  name: last_name
+                  value: "Spark"
+              - column:
+                  name: shipping_address
+                  value: "42 Galaxy Road, Nebula City"
+        - insert:
+            tableName: users
+            columns:
+              - column:
+                  name: email
+                  value: "admin@example.com"
+              - column:
+                  name: password
+                  value: "$2a$10$RAf9kXNi.4T66xi.uL9.DupVmlUPjPwTcBdkKQgeG0ZVyhI0vrXTe"  # "password"
+              - column:
+                  name: first_name
+                  value: "Dexter"
+              - column:
+                  name: last_name
+                  value: "Boom"
+              - column:
+                  name: shipping_address
+                  value: "99 Rocket Street, Blastville"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: "USER"
+        - insert:
+            tableName: roles
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: "ADMIN"
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+              - column:
+                  name: role_id
+                  valueNumeric: 1
+        - insert:
+            tableName: user_roles
+            columns:
+              - column:
+                  name: user_id
+                  valueNumeric: 2
+              - column:
+                  name: role_id
+                  valueNumeric: 2
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: name
+                  value: "Mythical Beasts"
+              - column:
+                  name: description
+                  value: "Stories of dragons, phoenixes and more"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: name
+                  value: "Mind Hacks"
+              - column:
+                  name: description
+                  value: "Tricks and tips to hack your brain"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: title
+                  value: "Firebreather's Journey"
+              - column:
+                  name: author
+                  value: "Ignatius Flame"
+              - column:
+                  name: isbn
+                  value: "9998371234567"
+              - column:
+                  name: price
+                  valueNumeric: 44.44
+              - column:
+                  name: description
+                  value: "An epic quest through fire and ash"
+              - column:
+                  name: cover_image
+                  value: "firebreather_journey.jpg"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: books
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: title
+                  value: "Brainwaves Unleashed"
+              - column:
+                  name: author
+                  value: "Neura Sparks"
+              - column:
+                  name: isbn
+                  value: "9998377654321"
+              - column:
+                  name: price
+                  valueNumeric: 29.99
+              - column:
+                  name: description
+                  value: "Unlocking the secrets of your mind"
+              - column:
+                  name: cover_image
+                  value: "brainwaves_unleashed.jpg"
+              - column:
+                  name: is_deleted
+                  valueBoolean: false
+        - insert:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: book_id
+                  valueNumeric: 1
+              - column:
+                  name: category_id
+                  valueNumeric: 1
+        - insert:
+            tableName: books_categories
+            columns:
+              - column:
+                  name: book_id
+                  valueNumeric: 2
+              - column:
+                  name: category_id
+                  valueNumeric: 2
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: user_id
+                  valueNumeric: 1
+              - column:
+                  name: created_at
+                  valueDate: "2025-07-23T11:00:00"
+        - insert:
+            tableName: shopping_carts
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: user_id
+                  valueNumeric: 2
+              - column:
+                  name: created_at
+                  valueDate: "2025-07-23T11:05:00"
+        - insert:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 1
+              - column:
+                  name: cart_id
+                  valueNumeric: 1
+              - column:
+                  name: book_id
+                  valueNumeric: 1
+              - column:
+                  name: quantity
+                  valueNumeric: 3
+        - insert:
+            tableName: cart_items
+            columns:
+              - column:
+                  name: id
+                  valueNumeric: 2
+              - column:
+                  name: cart_id
+                  valueNumeric: 2
+              - column:
+                  name: book_id
+                  valueNumeric: 2
+              - column:
+                  name: quantity
+                  valueNumeric: 2

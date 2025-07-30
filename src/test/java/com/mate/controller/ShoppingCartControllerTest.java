@@ -23,6 +23,7 @@ import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,17 @@ public class ShoppingCartControllerTest {
     private ShoppingCartMapper shoppingCartMapper;
     @Autowired
     private UserRepository userRepository;
+
+    @BeforeEach
+    void resetDatabase(@Autowired DataSource dataSource) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(true);
+            ScriptUtils.executeSqlScript(connection,
+                    new ClassPathResource("database/remove-books-and-user.sql"));
+            ScriptUtils.executeSqlScript(connection,
+                    new ClassPathResource("database/add-books-and-user-to-shopping-cart.sql"));
+        }
+    }
 
     @BeforeAll
     static void beforeAll(
@@ -116,7 +128,7 @@ public class ShoppingCartControllerTest {
             throws Exception {
 
         CartItemRequestDto cartItemRequestDto = new CartItemRequestDto();
-        cartItemRequestDto.setBookId(1L);
+        cartItemRequestDto.setBookId(10L);
         cartItemRequestDto.setQuantity(2);
 
         String jsonRequest = objectMapper.writeValueAsString(cartItemRequestDto);
@@ -135,7 +147,7 @@ public class ShoppingCartControllerTest {
         assertThat(actual.getId()).isNotNull();
         assertThat(actual.getBookId()).isEqualTo(cartItemRequestDto.getBookId());
         assertThat(actual.getQuantity()).isEqualTo(4);
-        assertThat(actual.getBookTitle()).isEqualTo("First book");
+        assertThat(actual.getBookTitle()).isEqualTo("First test book");
     }
 
     @Test
@@ -143,7 +155,7 @@ public class ShoppingCartControllerTest {
     @WithUserDetails("anna.kowalska@example.com")
     public void addNewBookToShoppingCart_ValidBook_ReturnsCartItemResponseDto() throws Exception {
         CartItemRequestDto cartItemRequestDto = new CartItemRequestDto();
-        cartItemRequestDto.setBookId(3L);
+        cartItemRequestDto.setBookId(12L);
         cartItemRequestDto.setQuantity(1);
 
         String jsonRequest = objectMapper.writeValueAsString(cartItemRequestDto);
@@ -162,7 +174,7 @@ public class ShoppingCartControllerTest {
         assertThat(actual.getId()).isNotNull();
         assertThat(actual.getBookId()).isEqualTo(cartItemRequestDto.getBookId());
         assertThat(actual.getQuantity()).isEqualTo(cartItemRequestDto.getQuantity());
-        assertThat(actual.getBookTitle()).isEqualTo("Third book");
+        assertThat(actual.getBookTitle()).isEqualTo("Third test book");
     }
 
     @Test
@@ -171,7 +183,7 @@ public class ShoppingCartControllerTest {
     public void updateBookQuantityInShoppingCart_ValidBook_ReturnsCartItemResponseDto()
             throws Exception {
 
-        Long cartItemId = 1L;
+        Long cartItemId = 10L;
         UpdateCartItemRequestDto updateCartItemRequestDto = new UpdateCartItemRequestDto();
         updateCartItemRequestDto.setQuantity(5);
 

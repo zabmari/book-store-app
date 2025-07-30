@@ -17,3 +17,5 @@ databaseChangeLog:
       file: db/changelog/changes/changeset-08-create-cartItem-table.yaml
   - include:
       file: db/changelog/changes/changeset-09-create-orders-and-orderItems-table.yaml
+  - include:
+      file: db/changelog/changes/changeset-12-add-test-data.yaml

@@ -44,8 +44,8 @@ public class ShoppingCartRepositoryTest {
 
         Assertions.assertNotNull(shoppingCart);
         Assertions.assertEquals(2, shoppingCart.getCartItems().size());
-        Assertions.assertTrue(titles.contains("First book"));
-        Assertions.assertTrue(titles.contains("Second book"));
+        Assertions.assertTrue(titles.contains("First test book"));
+        Assertions.assertTrue(titles.contains("Second test book"));
     }
 
     @Test

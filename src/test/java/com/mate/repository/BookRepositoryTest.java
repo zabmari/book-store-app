@@ -25,7 +25,7 @@ public class BookRepositoryTest {
     @Sql(scripts = {"classpath:database/remove-books-and-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCategoriesId_withExistingId_returnsBooks() {
-        List<Book> bookList = bookRepository.findAllByCategories_Id(1L);
+        List<Book> bookList = bookRepository.findAllByCategories_Id(10L);
         List<String> titles = bookList.stream()
                         .map(Book::getTitle)
                                 .toList();
@@ -41,7 +41,7 @@ public class BookRepositoryTest {
     @Sql(scripts = {"classpath:database/remove-books-and-categories.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void findAllByCategoriesId_withNoExistingId_returnsEmptyList() {
-        List<Book> bookList = bookRepository.findAllByCategories_Id(10L);
+        List<Book> bookList = bookRepository.findAllByCategories_Id(100L);
         Assertions.assertTrue(bookList.isEmpty());
     }
 }
