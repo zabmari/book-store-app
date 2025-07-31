@@ -24,6 +24,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,17 @@ public class BookControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void resetDatabase(@Autowired DataSource dataSource) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(true);
+            ScriptUtils.executeSqlScript(connection, new ClassPathResource(
+                    "database/remove-books-and-categories.sql"));
+            ScriptUtils.executeSqlScript(connection, new ClassPathResource(
+                    "database/add-books-and-categories.sql"));
+        }
+    }
 
     @BeforeAll
     static void beforeAll(
@@ -87,14 +99,14 @@ public class BookControllerTest {
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAll_ValidPageable_ReturnAllBooks() throws Exception {
 
-        BookDto book1 = new BookDto(1L, "First book","First author","978-0-123456-47-1",
-                new BigDecimal("39.90"),"first description","img1.jpg",Set.of(1L));
+        BookDto book1 = new BookDto(10L, "First book", "First author", "978-0-123456-47-1",
+                new BigDecimal("39.90"), "first description", "img1.jpg", Set.of(10L));
 
-        BookDto book2 = new BookDto(2L, "Second book", "Second author", "978-0-123456-47-2",
-                new BigDecimal("29.90"), "second description", "img2.jpg", Set.of(2L));
+        BookDto book2 = new BookDto(12L, "Second book", "Second author", "978-0-123456-47-2",
+                new BigDecimal("29.90"), "second description", "img2.jpg", Set.of(11L));
 
-        BookDto book3 = new BookDto(3L, "Third book", "Third author", "978-0-123456-47-3",
-                new BigDecimal("19.90"), "third description", "img3.jpg", Set.of(1L));
+        BookDto book3 = new BookDto(13L, "Third book", "Third author", "978-0-123456-47-3",
+                new BigDecimal("19.90"), "third description", "img3.jpg", Set.of(10L));
 
         List<BookDto> expected = new ArrayList<>();
 
@@ -119,10 +131,10 @@ public class BookControllerTest {
     @DisplayName("Find book by id with exist book")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void getBookById_ValidId_ReturnBookDto() throws Exception {
-        Long bookId = 1L;
+        Long bookId = 10L;
 
-        BookDto book1 = new BookDto(1L, "First book","First author","978-0-123456-47-1",
-                new BigDecimal("39.90"),"first description","img1.jpg",Set.of(1L));
+        BookDto book1 = new BookDto(10L, "First book", "First author", "978-0-123456-47-1",
+                new BigDecimal("39.90"), "first description", "img1.jpg", Set.of(10L));
 
         MvcResult result = mockMvc.perform(
                         get("/books/{id}", bookId)
@@ -185,7 +197,7 @@ public class BookControllerTest {
     @DisplayName("Delete book by id")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void delete_ValidId_DeletesBook() throws Exception {
-        Long bookId = 1L;
+        Long bookId = 10L;
 
         mockMvc.perform(
                         delete("/books/{id}", bookId)
@@ -199,11 +211,11 @@ public class BookControllerTest {
     @DisplayName("Update book by id with existent id")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void updateBookById_ValidId_ReturnBookDto() throws Exception {
-        Long bookId = 1L;
+        Long bookId = 10L;
 
         UpdateBookRequestDto updateBookRequestDto = new UpdateBookRequestDto(
                 "Update book", "Update author", "978-0-123456-47-1",
-                BigDecimal.valueOf(39.90), "Update description", "img1.jpg", Set.of(1L)
+                BigDecimal.valueOf(39.90), "Update description", "img1.jpg", Set.of(10L)
         );
 
         BookDto bookDto = new BookDto(

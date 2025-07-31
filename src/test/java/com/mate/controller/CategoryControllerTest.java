@@ -19,6 +19,7 @@ import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,17 @@ public class CategoryControllerTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void resetDatabase(@Autowired DataSource dataSource) throws SQLException {
+        try (Connection connection = dataSource.getConnection()) {
+            connection.setAutoCommit(true);
+            ScriptUtils.executeSqlScript(connection,
+                    new ClassPathResource("database/remove-books-and-categories.sql"));
+            ScriptUtils.executeSqlScript(connection,
+                    new ClassPathResource("database/add-books-and-categories.sql"));
+        }
+    }
 
     @BeforeAll
     static void beforeAll(
@@ -104,8 +116,8 @@ public class CategoryControllerTest {
     @DisplayName("Get all categories")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     void getAll_ValidPageable_ReturnAllCategories() throws Exception {
-        CategoryDto categoryDto1 = new CategoryDto(1L, "first", "first category");
-        CategoryDto categoryDto2 = new CategoryDto(2L, "second", "second category");
+        CategoryDto categoryDto1 = new CategoryDto(10L, "first", "first category");
+        CategoryDto categoryDto2 = new CategoryDto(11L, "second", "second category");
         List<CategoryDto> expected = new ArrayList<>();
 
         expected.add(categoryDto1);
@@ -128,9 +140,9 @@ public class CategoryControllerTest {
     @DisplayName("Get category by id with exist id")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void getCategoryById_ValidId_ReturnCategoryDto() throws Exception {
-        Long categoryId = 1L;
+        Long categoryId = 10L;
 
-        CategoryDto category = new CategoryDto(1L, "first", "first category");
+        CategoryDto category = new CategoryDto(10L, "first", "first category");
 
         MvcResult result = mockMvc.perform(
                         get("/categories/{id}", categoryId)
@@ -162,7 +174,7 @@ public class CategoryControllerTest {
     @DisplayName("Delete category by id")
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     public void delete_ValidId_DeletesCategories() throws Exception {
-        Long categoryId = 1L;
+        Long categoryId = 10L;
 
         mockMvc.perform(
                         delete("/categories/{id}", categoryId)

@@ -36,7 +36,6 @@ public class OrderController {
             @AuthenticationPrincipal User user,
             @RequestBody @Valid OrderRequestDto requestDto) {
         return orderService.addOrder(user, requestDto);
-
     }
 
     @PreAuthorize("hasRole('USER')")
