@@ -22,24 +22,39 @@ public class JwtAuthenticatorFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
+    private static final String[] PUBLIC_URLS = {
+            "/auth/",
+            "/swagger-ui/",
+            "/swagger-ui.html",
+            "/v3/api-docs/",
+            "/swagger-resources/",
+            "/webjars/"
+    };
+
     @Override
-    protected void doFilterInternal(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain) throws ServletException, IOException {
+
+        String path = request.getRequestURI();
+
+        for (String publicUrl : PUBLIC_URLS) {
+            if (path.startsWith(publicUrl)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
 
         String token = getToken(request);
         if (token != null && jwtUtil.isValidToken(token)) {
             String username = jwtUtil.getUserName(token);
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-            );
+            UsernamePasswordAuthenticationToken authentication =
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
         filterChain.doFilter(request, response);
-
     }
 
     private String getToken(HttpServletRequest request) {
